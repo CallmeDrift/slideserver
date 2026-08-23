@@ -14,6 +14,7 @@ public class ServerMain {
     public static void main(String[] args) {
         int port = args.length > 0 ? Integer.parseInt(args[0]) : 1082;
         String bindingName = args.length > 1 ? args[1] : "SlideServer";
+        System.setProperty("java.rmi.server.hostname", "192.168.1.11");
 
         SwingUtilities.invokeLater(() -> {
             try {

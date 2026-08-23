@@ -86,7 +86,7 @@ public class ServerControlPanel extends JFrame {
                 BorderFactory.createLineBorder(ServerTheme.OUTLINE_SOFT, 1),
                 new EmptyBorder(14, 14, 14, 14)));
 
-        JLabel decksLabel = new JLabel("DECKS CARGADOS");
+        JLabel decksLabel = new JLabel("ARCHIVOS CARGADOS");
         decksLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         decksLabel.setFont(ServerTheme.FONT_LABEL);
         decksLabel.setForeground(ServerTheme.TEXT_MUTED);
@@ -114,7 +114,7 @@ public class ServerControlPanel extends JFrame {
         JButton loadFolderBtn = new FlatButton("Abrir carpeta PNG...");
         loadFolderBtn.addActionListener(e -> loadPngFolder());
 
-        JButton startBtn = new FlatButton("Iniciar deck seleccionado", true);
+        JButton startBtn = new FlatButton("Iniciar", true);
         startBtn.addActionListener(e -> startSelectedDeck());
 
         JButton prev = new FlatButton("Anterior");
