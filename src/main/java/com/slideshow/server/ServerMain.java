@@ -27,7 +27,7 @@ public class ServerMain {
                 new ServerControlPanel(serverImpl, viewer);
 
                 System.out.println("Servidor RMI activo en puerto " + port + " con binding '" + bindingName + "'");
-                System.out.println("Los controles remotos deben conectarse a: rmi://<ip-del-servidor>:" + port + "/" + bindingName);
+                System.out.println("Los controles remotos deben conectarse a: rmi://<la ip del server xd>:" + port + "/" + bindingName);
                 System.out.println("Interfaz del contrato: " + ISlideShowServer.class.getName());
 
             } catch (Exception e) {

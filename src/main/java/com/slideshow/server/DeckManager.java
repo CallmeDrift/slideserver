@@ -48,14 +48,13 @@ public class DeckManager {
             PDFRenderer renderer = new PDFRenderer(document);
             int pageCount = document.getNumberOfPages();
             for (int i = 0; i < pageCount; i++) {
-                // 150 DPI: buen balance nitidez/memoria para proyección
                 BufferedImage img = renderer.renderImageWithDPI(i, 150);
                 images.add(img);
             }
         }
 
         if (images.isEmpty()) {
-            throw new IOException("El PDF no tiene páginas: " + pdfFile.getName());
+            throw new IOException("El PDF no tiene páginas (por alguna razon): " + pdfFile.getName());
         }
 
         String name = pdfFile.getName();

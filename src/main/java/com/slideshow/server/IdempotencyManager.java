@@ -17,7 +17,8 @@ public class IdempotencyManager {
     private static final long COOLDOWN_MS = 1000;
     private static final long ENTRY_TTL_MS = 5 * 60 * 1000; // 5 mim
 
-    private record CachedResult(ActionResult result, long storedAt) {}
+    private record CachedResult(ActionResult result, long storedAt) {
+    }
 
     private final Map<String, CachedResult> processedActions = new ConcurrentHashMap<>();
     private final Object executionLock = new Object();
@@ -33,10 +34,9 @@ public class IdempotencyManager {
         cleaner.scheduleAtFixedRate(this::evictExpired, 1, 1, TimeUnit.MINUTES);
     }
 
-
     public ActionResult execute(String actionId,
-                                 java.util.function.LongFunction<ActionResult> cooldownRejectedFactory,
-                                 Supplier<ActionResult> action) {
+            java.util.function.LongFunction<ActionResult> cooldownRejectedFactory,
+            Supplier<ActionResult> action) {
         CachedResult cached = processedActions.get(actionId);
         if (cached != null) {
             return cached.result();
