@@ -17,10 +17,17 @@ Genera `target/slideshow-server.jar` (el jar con PDFBox).
 java -jar target/slideshow-server.jar [puerto] [nombreBinding] [ipServidor]
 ```
 
-Por defecto: puerto `1082` y binding `SlideServer`. Si no se pasa
-`ipServidor`, la JVM detecta una dirección local automáticamente. La IP es la
-que RMI inserta en el stub que reciben los clientes; si el equipo tiene varias
-interfaces (VPN, Wi-Fi y Ethernet, por ejemplo), indícala explícitamente.
+También puedes configurar el servidor en `.env`:
+
+```dotenv
+HOST=192.168.1.4
+PORT=1082
+BINDING_NAME=SlideServer
+```
+
+La configuración usa primero los argumentos, después las variables del sistema,
+luego `.env` y finalmente los valores por defecto. `HOST` es la dirección que
+RMI inserta en el stub que reciben los clientes.
 
 Ejemplo en una red local:
 

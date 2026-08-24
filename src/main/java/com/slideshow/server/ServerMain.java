@@ -3,8 +3,13 @@ package com.slideshow.server;
 import com.slideshow.common.ISlideShowServer;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * mirey, recuerda: java -jar slideshow-server.jar
@@ -12,9 +17,10 @@ import java.rmi.registry.Registry;
 public class ServerMain {
 
     public static void main(String[] args) {
-        int port = args.length > 0 ? Integer.parseInt(args[0]) : 1082;
-        String bindingName = args.length > 1 ? args[1] : "SlideServer";
-        String host = "192.168.1.4";
+        Map<String, String> config = loadEnvFile();
+        String host = args.length > 2 ? args[2] : getConfig(config, "HOST", "192.168.1.4");
+        int port = args.length > 0 ? Integer.parseInt(args[0]) : Integer.parseInt(getConfig(config, "PORT", "1082"));
+        String bindingName = args.length > 1 ? args[1] : getConfig(config, "BINDING_NAME", "SlideServer");
         System.setProperty("java.rmi.server.hostname", host);
 
         SwingUtilities.invokeLater(() -> {
@@ -38,5 +44,35 @@ public class ServerMain {
                 System.exit(1);
             }
         });
+    }
+
+    private static String getConfig(Map<String, String> config, String key, String defaultValue) {
+        return System.getenv().getOrDefault(key, config.getOrDefault(key, defaultValue));
+    }
+
+    private static Map<String, String> loadEnvFile() {
+        Map<String, String> values = new HashMap<>();
+        Path envFile = Path.of(".env");
+        if (!Files.exists(envFile)) {
+            return values;
+        }
+
+        try {
+            for (String line : Files.readAllLines(envFile)) {
+                String trimmed = line.trim();
+                if (trimmed.isEmpty() || trimmed.startsWith("#")) {
+                    continue;
+                }
+                int separator = trimmed.indexOf('=');
+                if (separator > 0) {
+                    String key = trimmed.substring(0, separator).trim();
+                    String value = trimmed.substring(separator + 1).trim();
+                    values.put(key, value.replaceAll("^\\\"|\\\"$|^'|'$", ""));
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("No se pudo leer el archivo .env: " + e.getMessage());
+        }
+        return values;
     }
 }
