@@ -14,7 +14,8 @@ public class ServerMain {
     public static void main(String[] args) {
         int port = args.length > 0 ? Integer.parseInt(args[0]) : 1082;
         String bindingName = args.length > 1 ? args[1] : "SlideServer";
-        System.setProperty("java.rmi.server.hostname", "192.168.1.14");
+        String host = "192.168.1.4";
+        System.setProperty("java.rmi.server.hostname", host);
 
         SwingUtilities.invokeLater(() -> {
             try {
@@ -27,7 +28,8 @@ public class ServerMain {
                 new ServerControlPanel(serverImpl, viewer);
 
                 System.out.println("Servidor RMI activo en puerto " + port + " con binding '" + bindingName + "'");
-                System.out.println("Los controles remotos deben conectarse a: rmi://<la ip del server xd>:" + port + "/" + bindingName);
+                System.out.println("Host expuesto: " + host);
+                System.out.println("Los controles remotos deben conectarse a: rmi://" + host + ":" + port + "/" + bindingName);
                 System.out.println("Interfaz del contrato: " + ISlideShowServer.class.getName());
 
             } catch (Exception e) {
